@@ -1,20 +1,27 @@
 name: OWASP ZAP Integration with GitHub Actions
 
-on: [push]
+on: 
+  push:
+    branches:
+      - master  # Trigger this workflow on push to master branch
 
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
     name: Scan the web applications
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          ref: master
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for authentication
+          ref: master  # Ensure it's fetching from the master branch
+
+      # Step 2: Perform the ZAP scan
       - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.6.1
+        uses: zaproxy/action-baseline@v0.6.1  # OWASP ZAP baseline scan
         with:
-          docker_name: 'owasp/zap2docker-stable'
-          target: 'http://testphp.vulnweb.com/'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a'
+          docker_name: 'owasp/zap2docker-stable'  # Using ZAP Docker container
+          target: 'http://testphp.vulnweb.com/'   # Set your target URL
+          rules_file_name: '.zap/rules.tsv'       # Optional: Specify your ZAP rules file
+          cmd_options: '-a'                       # Command line options for ZAP scan
