@@ -22,7 +22,7 @@ jobs:
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.6.1  # OWASP ZAP baseline scan
         with:
-          docker_name: 'owasp/zap2docker-stable'  # Using ZAP Docker container
+          docker_name: 'owasp/zap2docker-weekly'  # Using ZAP Docker container
           target: 'http://testphp.vulnweb.com/'   # Set your target URL
           rules_file_name: '.zap/rules.tsv'       # Optional: Specify your ZAP rules file
           cmd_options: '-a'                       # Command line options for ZAP scan
