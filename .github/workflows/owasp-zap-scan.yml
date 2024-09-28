@@ -3,19 +3,20 @@ name: OWASP ZAP Integration with GitHub Actions
 on: 
   push:
     branches:
-      - main  # Trigger this workflow on push to master branch
+      - master  # Trigger this workflow on push to master branch
 
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
     name: Scan the web applications
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout the repository with full history
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Using the latest checkout version
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for authentication
           ref: master  # Ensure it's fetching from the master branch
+          fetch-depth: 0  # Fetch full history
 
       # Step 2: Perform the ZAP scan
       - name: ZAP Scan
